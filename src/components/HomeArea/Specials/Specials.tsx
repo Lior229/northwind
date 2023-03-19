@@ -18,6 +18,7 @@ const Specials: FC<SpecialsProps> = () => {
   }
 
   const renderSpecials = () => {
+    
     if (isWeekend()){
       return <span>pizza</span>
     } else if (isTuesdayOrFriday()){

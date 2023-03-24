@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react';
+import Clock from '../../HomeArea/Clock/Clock';
 import Counter from '../../HomeArea/Counter/Counter';
 import Desserts from '../../HomeArea/Desserts/Desserts';
 import Discount from '../../HomeArea/Discount/Discount';
 import Input from '../../HomeArea/Input/Input';
+import RandomDiscount from '../../HomeArea/RandomDiscount/RandomDiscount';
 import Recommendation from '../../HomeArea/Recommendation/Recommendation';
 import Sale from '../../HomeArea/Sale/Sale';
 import Specials from '../../HomeArea/Specials/Specials';
@@ -37,6 +39,8 @@ const Main: FC<MainProps> = () => {
     <Counter/>
     <Input type='text' value={value} onChange={valueChangeHandler}></Input>
     <Input type='number' value={price} onChange={priceChangeHandler} limit={100}></Input>
+    {price < 5 && <Clock />}
+    <RandomDiscount></RandomDiscount>
   </main>
 )};
 

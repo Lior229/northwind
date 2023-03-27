@@ -8,8 +8,11 @@ interface ProductsAreaProps {}
 
 const ProductsArea: FC<ProductsAreaProps> = () =>{
   const [products , setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+
+    setIsLoading(true);
 
     getProducts().then((products) =>{
         console.log(products);
@@ -17,9 +20,14 @@ const ProductsArea: FC<ProductsAreaProps> = () =>{
         
     }).catch((err)=>{
       console.log(err.message);
-      
+    }).finally(()=>{
+      setIsLoading(false);
     });
   },[])
+
+  if (isLoading){
+    return <p>loading...</p>
+  }
 
   if (products.length === 0) {
     return (<p>no products</p>)

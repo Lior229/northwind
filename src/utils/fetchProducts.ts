@@ -14,3 +14,15 @@ export const getProducts = async ():Promise<Product[]> =>{
         }, 2000);
     });
 }
+
+export const getProduct = async (id:number):Promise<Product> =>{
+
+    const response = await axios.get(`${BASE_API_URL}products/${id}`);
+    const product = response.data;
+
+    return new Promise((resolve, reject) =>{
+        setTimeout(() => {
+            resolve(product)
+        }, 1500);
+    });
+}

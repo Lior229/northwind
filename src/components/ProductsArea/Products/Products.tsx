@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { NavLink } from 'react-router-dom';
 import Product from '../../../models/Product';
 import ProductItem from './ProductItem/ProductItem';
 import styles from './Products.module.scss';
@@ -17,9 +18,12 @@ const Products: FC<ProductsProps> = ({products}) => {
   }
 
   return(
-  <ul className={styles.Products}>
-    {renderProducts()}
-  </ul>
+  <div className={styles.Products}>
+    <NavLink to="/products/new">Add new product</NavLink>
+    <ul className={styles.Products__list}>
+      {renderProducts()}
+    </ul>
+  </div>
 )};
 
 export default Products;

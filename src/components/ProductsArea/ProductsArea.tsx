@@ -24,7 +24,15 @@ const ProductsArea: FC<ProductsAreaProps> = () =>{
     }).finally(()=>{
       setIsLoading(false);
     });
-  },[])
+  },[]);
+
+  const addProductHandler= (product:Product) =>{
+      setProducts((prevProducts) => {
+          const productsToUpdate = [...prevProducts];
+          productsToUpdate.push(product);
+          return productsToUpdate;
+      })
+  }
 
   if (isLoading){
     return <Loader/>
@@ -36,8 +44,9 @@ const ProductsArea: FC<ProductsAreaProps> = () =>{
   
   return(
     <div className={styles.ProductsArea}>
-      <Products products={products}/>
+      <Products onAddProduct={addProductHandler} products={products}/>
     </div>
+    
 )};
 
 export default ProductsArea;

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import Product from '../../../models/Product';
+import { addProduct } from '../../../utils/fetchProducts';
 import Button from '../../Button/Button';
 import FormGroupWithError from '../../FormGroupWithError/FormGroupWithError';
 import Modal from '../../Modal/Modal';
@@ -9,14 +10,20 @@ import validation from './validation';
 
 interface AddProductProps {
   onClose: () => void;
+  onAddProduct: (product:Product) =>void;
 }
 
-const AddProduct: FC<AddProductProps> = ({onClose}) => {
+const AddProduct: FC<AddProductProps> = ({onClose, onAddProduct}) => {
 
   const {register, handleSubmit, formState} = useForm<Product>();
 
   const sumbitProductHandler = (product:Product) =>{
-    console.log(product);
+    addProduct(product).then((_product)=>{
+        onAddProduct(_product);
+        onClose();
+    }).catch(
+      (err)=>{console.log(err);
+    })
   }
 
   return(
@@ -38,6 +45,11 @@ const AddProduct: FC<AddProductProps> = ({onClose}) => {
               <FormGroupWithError error={formState.errors.stock?.message}>
               <label>Stock:</label>
               <input type="number" {...register('stock', validation.stock)}/>
+              </FormGroupWithError>
+
+              <FormGroupWithError>
+              <label>image:</label>
+              <input type="file" accept='image/*' {...register('image')}/>
               </FormGroupWithError>
 
               <Button>

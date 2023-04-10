@@ -1,0 +1,18 @@
+.Button {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 14px;
+    background-color: #fff;
+    border-color: #ccc;
+
+    &:hover{
+        border-color: #e6e6e6;
+        color: rgb(63, 44, 240);
+        border-color: #fff;
+    }
+}

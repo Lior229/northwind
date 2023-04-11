@@ -23,9 +23,15 @@ export const getProduct = async (id:number):Promise<Product> =>{
     return new Promise((resolve, reject) =>{
         setTimeout(() => {
             resolve(product)
-        }, 1500);
+        }, 1000);
     });
 }
+
+// GET    - Get data/resource from the server
+// POST   - Add a new data to the server
+// PUT    - Update full datain the server
+// PATCH  - Update partial data in the server - update 1 / few properties
+// DELETE - Delete data from the server
 
 export const addProduct = async (product:Product):Promise<Product> =>{
 
@@ -47,3 +53,37 @@ export const addProduct = async (product:Product):Promise<Product> =>{
         }, 1000);
     });
 }
+
+export const updateProduct = async (product:Product):Promise<Product> =>{
+
+    const formData = new FormData(); // can contain string and / or files
+    formData.append('name',product.name);
+    formData.append('price',product.price.toString());
+    formData.append('stock',product.stock.toString());
+
+    if(product.image) {
+    formData.append('image',product.image[0]); // image = FileList image[0] = file / blob
+    }
+
+    const response = await axios.put(`${BASE_API_URL}products/${product.id}`, formData);
+    const updatedProduct = response.data;
+
+    return new Promise((resolve, reject) =>{
+        setTimeout(() => {
+            resolve(updatedProduct)
+        }, 1000);
+    });
+}
+
+export const deleteProduct = async (id:number):Promise<boolean> =>{
+
+    await axios.delete(`${BASE_API_URL}products/${id}`);
+
+    return new Promise((resolve, reject) =>{
+        setTimeout(() => {
+            resolve(true);
+        }, 800);
+    });
+}
+
+

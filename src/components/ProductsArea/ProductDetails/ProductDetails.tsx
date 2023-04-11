@@ -5,7 +5,6 @@ import Product from '../../../models/Product';
 import { deleteProduct, getProduct } from '../../../utils/fetchProducts';
 import Loader from '../../Loader/Loader';
 import EditProduct from '../EditProduct/EditProduct';
-import ProductItem from '../Products/ProductItem/ProductItem';
 import styles from './ProductDetails.module.scss';
 
 interface ProductDetailsProps {}
@@ -15,10 +14,17 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(false);
-  const [showEditProduct, setShowEditProduct]=useState(false);
+  const [showEditProduct, setShowEditProduct] = useState(false);
 
   const modalToggleHandler = () =>{
       setShowEditProduct((prevState)=> !prevState);
+  }
+
+  const editProductHandler = (product: Product) =>{
+    setProduct((prevProduct) => {
+      const updateProduct = {...prevProduct,...product}
+      return updateProduct;
+    })
   }
   
   const deleteProductHandler = async () => {
@@ -87,7 +93,7 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
     <div className={styles.ProductDetails__body}>
       {renderProduct()}
     </div>
-    {showEditProduct && <EditProduct onAddProduct={()=>{}} onClose={modalToggleHandler}/>}
+    {(showEditProduct && product) && <EditProduct onEditProduct={editProductHandler} onClose={modalToggleHandler} product={product} />}
   </div>
 )};
 

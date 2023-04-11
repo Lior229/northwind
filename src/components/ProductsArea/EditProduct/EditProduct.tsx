@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Product from '../../../models/Product';
-import { addProduct } from '../../../utils/fetchProducts';
+import { updateProduct } from '../../../utils/fetchProducts';
 import Button from '../../Button/Button';
 import FormGroupWithError from '../../FormGroupWithError/FormGroupWithError';
 import Modal from '../../Modal/Modal';
@@ -10,22 +10,40 @@ import validation from './validation';
 
 interface EditProductProps {
   onClose: () => void;
-  onAddProduct: (product:Product) =>void;
+  onEditProduct: (product:Product) =>void;
+  product: Product;
 }
 
-const EditProduct: FC<EditProductProps> = ({onClose, onAddProduct}) => {
+const EditProduct: FC<EditProductProps> = ({onClose, product, onEditProduct}) => {
 
-  const {register, handleSubmit, formState} = useForm<Product>();
+  const {register, handleSubmit, formState, setValue} = useForm<Product>();
 
   const sumbitProductHandler = (product:Product) =>{
-      //
+      updateProduct(product).then(response =>{
+        //set product
+        onEditProduct(response);
+        onClose();
+      }).catch((err)=>{
+        console.log(err);
+      })
   }
+
+  useEffect(() => {
+    setValue("id",product.id);
+    setValue("name",product.name);
+    setValue("price",product.price);
+    setValue("stock",product.stock);
+
+  }, [])
+  
 
   return(
     <Modal onClose={onClose}>
             <div className={`Box ${styles.EditProduct}`}>
             <h2>Edit Product</h2>
             <form onSubmit={handleSubmit(sumbitProductHandler)}>
+
+              <input type="hidden" {...register('id')} />
 
               <FormGroupWithError error={formState.errors.name?.message}>
                 <label>Name:</label>

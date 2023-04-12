@@ -20,7 +20,6 @@ const EditProduct: FC<EditProductProps> = ({onClose, product, onEditProduct}) =>
 
   const sumbitProductHandler = (product:Product) =>{
       updateProduct(product).then(response =>{
-        //set product
         onEditProduct(response);
         onClose();
       }).catch((err)=>{
